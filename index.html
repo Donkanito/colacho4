@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nexo de Esencias — Builder</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- html2pdf (para exportar PDF) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+  <script src="builder.js" defer></script>
+</head>
+<body>
+  <!-- HERO STRIP -->
+  <div id="hero">
+    <div class="hero-inner">
+      <div class="brand">
+        <!-- Logo SVG -->
+        <svg viewBox="0 0 64 64" width="36" height="36" aria-hidden="true">
+          <defs>
+            <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#D4A017"/>
+              <stop offset="1" stop-color="#922B21"/>
+            </linearGradient>
+          </defs>
+          <circle cx="32" cy="32" r="30" fill="url(#lg)" />
+          <path d="M32 14l9 16-9 16-9-16 9-16zm0 8 5 8-5 8-5-8 5-8z" fill="#fff"/>
+        </svg>
+        <span class="brand-title">Nexo de Esencias</span>
+      </div>
+      <nav class="breadcrumbs" aria-label="breadcrumbs">
+        <a>Campaña</a>
+        <span>›</span>
+        <a>Herramientas</a>
+        <span>›</span>
+        <strong>Builder</strong>
+      </nav>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header id="header">
+    <h1>Nexo de Esencias — Builder</h1>
+    <p class="kicker">Construye tu pool de esencias, afinidades, dominios y mercado</p>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <section id="controles">
+      <div class="card-title">
+        <h2>Configuración</h2>
+      </div>
+      <div class="input-row" style="margin-top:10px">
+        <div>
+          <label for="puntosInput">Puntos totales</label>
+          <input id="puntosInput" type="number" min="0" value="200" />
+        </div>
+        <div>
+          <label for="buscador">Buscar esencia</label>
+          <input id="buscador" type="text" placeholder="Escribe nombre o texto…" />
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="input-row">
+        <div>
+          <label>Nombre PJ A</label>
+          <input class="char-name-input" data-personaje="A" type="text" value="Personaje A" />
+        </div>
+        <div>
+          <label>Slots PJ A</label>
+          <input class="slot-input" data-personaje="A" type="number" min="0" value="6" />
+        </div>
+      </div>
+      <div class="input-row">
+        <div>
+          <label>Nombre PJ B</label>
+          <input class="char-name-input" data-personaje="B" type="text" value="Personaje B" />
+        </div>
+        <div>
+          <label>Slots PJ B</label>
+          <input class="slot-input" data-personaje="B" type="number" min="0" value="9" />
+        </div>
+      </div>
+      <div class="input-row">
+        <div>
+          <label>Nombre PJ C</label>
+          <input class="char-name-input" data-personaje="C" type="text" value="Personaje C" />
+        </div>
+        <div>
+          <label>Slots PJ C</label>
+          <input class="slot-input" data-personaje="C" type="number" min="0" value="12" />
+        </div>
+      </div>
+
+      <div class="input-row" style="margin-top:10px">
+        <div>
+          <label for="filtroConstelacion">Filtrar por constelación</label>
+          <select id="filtroConstelacion">
+            <option value="all">Todas</option>
+          </select>
+        </div>
+        <div style="align-self:flex-end; display:flex; gap:8px; justify-content:flex-end">
+          <button id="resetBtn" class="secondary">Resetear</button>
+          <button id="exportPdfBtn" class="export-btn">Exportar PDF</button>
+        </div>
+      </div>
+
+      <div id="puntosDisplay">Puntos restantes: <strong id="puntosRestantes">200</strong></div>
+    </section>
+
+    <section id="tienda" style="margin-top:18px">
+      <div class="card-title">
+        <h2>Mercado de Esencias</h2>
+      </div>
+      <div id="marketList"></div>
+    </section>
+
+    <section id="mercado" style="margin-top:18px">
+      <div class="card-title">
+        <h2>Mercado Arcano</h2>
+      </div>
+      <div id="mercadoContainer"></div>
+    </section>
+  </main>
+
+  <!-- ASIDE -->
+  <aside>
+    <section id="resumen">
+      <div class="card-title">
+        <h2>Resumen de Build</h2>
+      </div>
+      <h3>Esencias compradas</h3>
+      <ul id="listaCompradas"></ul>
+
+      <hr>
+      <h3>Slots por PJ</h3>
+      <ul id="slotsInfo"></ul>
+
+      <hr>
+      <h3>Afinidades &amp; Dominios</h3>
+      <div id="afinidadesList"></div>
+
+      <hr>
+      <h3>Mercado Arcano (Compras)</h3>
+      <ul id="mercadoComprado"></ul>
+    </section>
+  </aside>
+
+  <!-- MODAL EXAMINAR -->
+  <div id="modalOverlay" role="dialog" aria-modal="true">
+    <div id="modalCard">
+      <div id="modalTitle">Título</div>
+      <div id="modalBody"></div>
+      <div id="modalFooter">
+        <button id="modalClose" class="ghost">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PICKER PJ -->
+  <div id="pickerOverlay" role="dialog" aria-modal="true">
+    <div id="pickerCard">
+      <h3>Elegir personaje</h3>
+      <div id="pickerButtons"></div>
+      <div style="margin-top:10px; display:flex; justify-content:flex-end; gap:8px">
+        <button id="pickerCancel" class="ghost">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

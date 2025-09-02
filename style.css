@@ -1,0 +1,337 @@
+/* =========================================================
+   Nexo de Esencias — Estilo “D&D Beyond”-like”
+   Incluye:
+   - hero strip con logo + breadcrumbs
+   - textura de pergamino embebida
+   - colapsables, tarjetas, sticky aside
+   - no overflow que corte títulos
+========================================================= */
+
+/* --------- Variables --------- */
+:root{
+  --bg-parchment: #f8f3e7;
+  --bg-parchment-2: #f3ecdc;
+  --ink: #2f2a25;
+  --ink-soft: #5a524a;
+  --ruby: #922B21;
+  --ruby-700: #7a2018;
+  --gold: #D4A017;
+  --card: #ffffff;
+  --card-tint: rgba(255,255,255,.75);
+  --ring: rgba(146,43,33,.25);
+  --shadow: 0 10px 25px rgba(0,0,0,.08);
+  --radius-xl: 16px;
+}
+
+/* --------- Reset & base --------- */
+*{ box-sizing: border-box; }
+html,body{ height:100%; }
+body{
+  font-family: ui-serif, "Georgia", Cambria, "Times New Roman", serif;
+  color: var(--ink);
+  margin: 0;
+  /* Textura de pergamino embebida (base64) */
+  background:
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAAB0q4nSAAAACXBIWXMAAAsTAAALEwEAmpwYAAABeUlEQVR4nO3aPW7CMBQF4NnJgUR8Gm0hG1Q6WJz2oVnqf0a0hQ3aWq0J4l6c1r1Z/0nK0g0lQ8r0Ggq8H5wE7K1k0m0C0m4nQwQy5b1k5f3cM3k3v0H2y0dH0fYF8D9p0Y2V6bQd0l9m0wQ9Yd9sN9m4oJb6q2b8u6YQqGJKr8tQyH3Fdv4I3XwJwF6o6vX1m9m7eQ7d7fQpQh5lV9wqkQy0lU2wZ1Ckq2b0u2hJ8Jq0j5Qj0iZ2H1aKQ2qg5+1rj0Q7Xw3kR8XwQ7i8Qf6l3H9cJ9inmK6f2r3w3i9yJjO0n3s7c9v7R9d9x9w3k8yWc4qf0bGkHq9b2UO2hUXX9sdaR5J7m3v9H7M9XgC2rjJQwqgR0m3Hqf3U2xZb3vW1f1sR1hNq4o0Hf6u2V0k9xk0o7b8kG0QmQFJ8eQy3s2rLQKkYfXcQW9HqkZf3bq2gV3+o0b8q6u2NBmP9XkQ+EJ5eFIfb+q9M2QmW2w8gA8Y0AAAAASUVORK5CYII=") repeat,
+    radial-gradient(1200px 800px at 20% -10%, #fff8, transparent),
+    radial-gradient(1200px 800px at 110% 20%, #fff6, transparent),
+    linear-gradient(180deg, var(--bg-parchment), var(--bg-parchment-2));
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr);
+  gap: 24px;
+  padding: 24px;
+  grid-template-areas:
+    "header header"
+    "main   aside";
+}
+
+/* --------- HERO STRIP --------- */
+#hero{
+  grid-area: header;
+  margin-bottom: 8px;
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.72));
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: var(--shadow);
+}
+.hero-inner{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 10px 16px;
+}
+.brand{ display:flex; align-items:center; gap:10px; }
+.brand-title{ font-weight:800; letter-spacing:.2px; color:#3a2a20; }
+.breadcrumbs{ display:flex; align-items:center; gap:8px; color:#6b6158; }
+.breadcrumbs a{ color:#6b6158; text-decoration:none; }
+.breadcrumbs strong{ color:#2f2a25; }
+
+/* --------- Header principal --------- */
+#header{
+  grid-area: header;
+  text-align: center;
+  padding: 18px 16px 22px;
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.65));
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(0,0,0,.06);
+  /* quitamos overflow para que no corte el título */
+  overflow: visible;
+}
+#header h1{ margin: 0 0 6px 0; color: var(--ruby-700); }
+.kicker{ margin:0; color:#6b6158; }
+
+/* --------- Columnas --------- */
+main{ grid-area: main; min-width: 0; }
+aside{ grid-area: aside; min-width: 280px; }
+
+/* --------- Contenedores --------- */
+#controles, #tienda, #resumen, #mercado{
+  background: var(--card);
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: var(--radius-xl);
+  padding: 18px;
+  box-shadow: var(--shadow);
+  backdrop-filter: saturate(110%) blur(2px);
+}
+#resumen{
+  position: sticky;
+  top: 24px; /* aseguramos sticky visible */
+}
+
+/* --------- Tipografía --------- */
+h1, h2, h3{
+  font-family: "Garamond", ui-serif, serif;
+  color: var(--ruby-700);
+  letter-spacing: .2px;
+  margin: 0 0 8px 0;
+}
+p{ line-height: 1.5; }
+
+/* --------- Inputs --------- */
+label{ font-weight: 600; color: var(--ink-soft); }
+input[type="number"],
+input[type="text"],
+select{
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.12);
+  background: #fff;
+  color: var(--ink);
+  outline: none;
+}
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus{
+  border-color: var(--ruby);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+.input-row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.input-inline{ width:auto; min-width:190px; }
+
+/* --------- Botones --------- */
+button{
+  background: linear-gradient(180deg, var(--ruby), var(--ruby-700));
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(146,43,33,.25);
+  transition: transform .06s ease, filter .15s ease;
+}
+button:hover{ filter: brightness(1.05); }
+button:active{ transform: translateY(1px); }
+button:disabled{ opacity:.55; cursor:not-allowed; box-shadow:none; }
+button.secondary{
+  background: linear-gradient(180deg, #6b7280, #4b5563);
+  box-shadow: 0 6px 14px rgba(75,85,99,.25);
+}
+button.ghost{
+  background: transparent;
+  color: var(--ruby);
+  border: 1px solid rgba(146,43,33,.35);
+}
+button.export-btn{
+  width: 100%;
+  padding: 12px;
+  margin-top: 14px;
+  background: linear-gradient(180deg, var(--gold), #b8860b);
+  color: #2e2000;
+  font-weight: 700;
+  box-shadow: 0 8px 18px rgba(212,160,23,.25);
+}
+
+/* --------- Display puntos --------- */
+#puntosDisplay{
+  font-size: 1.05rem;
+  font-weight: 800;
+  text-align: center;
+  margin-top: 10px;
+  color: var(--ruby-700);
+  background: linear-gradient(180deg, #fff, #fff7);
+  border: 1px dashed rgba(146,43,33,.35);
+  border-radius: 12px;
+  padding: 8px;
+}
+
+/* --------- Collapsibles --------- */
+.collapsible{
+  cursor: pointer;
+  width: 100%;
+  border: 1px solid rgba(0,0,0,.06);
+  text-align: left;
+  outline: none;
+  font-size: 1.1rem;
+  background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.75));
+  padding: 12px 14px;
+  margin-top: 14px;
+  border-radius: 12px;
+  display:flex; align-items:center; gap:10px;
+  position: relative;
+}
+.collapsible .constelacionIcon{
+  width: 22px; height: 22px; display:inline-flex; align-items:center; justify-content:center;
+}
+.collapsible .constelacionColor{
+  width: 12px; height:12px; border-radius:4px;
+  border: 1px solid rgba(0,0,0,.08);
+  display:inline-block;
+}
+.collapsible::after{
+  content: '▾';
+  font-weight: 900;
+  color: var(--ink-soft);
+  margin-left:auto;
+  transition: transform .2s ease;
+}
+.collapsible.is-collapsed::after{ transform: rotate(-90deg); }
+
+.content{
+  padding: 0 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .25s ease;
+  background: transparent;
+}
+.content-inner{ padding: 8px 6px 12px; }
+
+/* --------- Tiers --------- */
+.tier-header{
+  margin-top: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-weight: 700;
+  color: #3a2a20;
+  background: linear-gradient(180deg, rgba(244,238,224,.95), rgba(244,238,224,.7));
+  border: 1px solid rgba(0,0,0,.06);
+  display:flex; align-items:center; gap:8px;
+}
+.tier-body{
+  margin-top: 4px;
+  border-left: 3px solid rgba(0,0,0,.06);
+  padding-left: 8px;
+}
+
+/* --------- Items --------- */
+.item{
+  display:flex; gap: 12px; padding: 12px 10px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--card), var(--card-tint));
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 3px 12px rgba(0,0,0,.04);
+  transition: transform .08s ease, background .15s ease;
+  margin: 8px 0;
+}
+.item:hover{ transform: translateY(-1px); background: #fff; }
+.item p{ font-size: .92rem; color: var(--ink-soft); margin-top: 6px; }
+.item .meta{ color: #6b6158; font-size: .86rem; }
+.item .actions{ margin-left:auto; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+
+/* --------- Badges resumen --------- */
+.badge{ width: 12px; height: 12px; border-radius: 4px; border: 1px solid rgba(0,0,0,.1); display:inline-block; margin-right: 6px; }
+.esenciaTitle{ display:flex; align-items:center; gap:10px; }
+
+/* --------- Afinidad / Dominio --------- */
+.afinidadBox{
+  background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.8));
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: var(--shadow);
+  margin: 10px 0;
+}
+.afinidadBox ul{ margin: 6px 0 0 18px; }
+
+/* --------- Modal Examinar --------- */
+#modalOverlay{
+  position: fixed; inset:0; display:none;
+  align-items: center; justify-content: center;
+  background: rgba(0,0,0,.35);
+  z-index: 50;
+}
+#modalCard{
+  width: min(740px, 92vw);
+  max-height: 82vh;
+  overflow:auto;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 30px 80px rgba(0,0,0,.25);
+  padding: 18px;
+}
+#modalTitle{ font-size: 1.25rem; display:flex; align-items:center; gap:8px; margin-bottom: 8px; }
+#modalBody{ color: var(--ink-soft); }
+#modalFooter{ display:flex; justify-content:flex-end; gap:8px; margin-top: 12px; }
+
+/* --------- Picker de PJ --------- */
+#pickerOverlay{
+  position: fixed; inset:0; display:none;
+  align-items: center; justify-content: center;
+  background: rgba(0,0,0,.35);
+  z-index: 40;
+}
+#pickerCard{
+  width: min(520px, 92vw);
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 30px 80px rgba(0,0,0,.25);
+  padding: 16px;
+}
+#pickerButtons{
+  display: grid; gap: 10px; margin-top: 10px;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* --------- Listas y separadores --------- */
+ul{ padding-left: 18px; }
+hr{
+  border: none; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,.12), transparent);
+  margin: 16px 0;
+}
+
+/* --------- Responsive --------- */
+@media (max-width: 1100px){
+  body{
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "main"
+      "aside";
+  }
+  #resumen{ position: relative; top: 0; }
+  .input-row{ grid-template-columns: 1fr; }
+}
+@media (max-width: 560px){
+  .item{ flex-direction: column; }
+  .item .actions{ margin-left: 0; justify-content: flex-start; }
+  .input-inline{ width: 100%; }
+  #pickerButtons{ grid-template-columns: 1fr; }
+}
